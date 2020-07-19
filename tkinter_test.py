@@ -6,13 +6,6 @@ import requests
 
 import json
 
-# ip_info = requests.get("http://ip-api.com/json/?fields=query,status,message,continent,country,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,reverse,mob")
-# ip_info_json = ip_info.json()
-# print(ip_info_json)
-    
-
-
-
 # create the window object
 window = Tk()
 
@@ -24,24 +17,23 @@ window.title("Please Select YES or NO")
 
 # create the label in the window
 lbl = Label(window, text="Please Select YES or NO", font=("Arial Bold", 20))
-lbl.grid(column=0, row=0)
+lbl.place(relx = .5, rely = .3, anchor = 'center')
 
 
-def clickedYES():
+def clickedYES(event):
 
-    global click
-    answer = 'yes'
-    
+    #creates ne window for the answer
     answer_window = Toplevel(window) 
   
-    # sets the title of the 
-    # Toplevel widget 
+    # sets the title of the window
     answer_window.title("Answer Window") 
   
-    # sets the geometry of toplevel 
+    # sets the size of the answer window 
     answer_window.geometry("600x550") 
   
-    # A Label widget to show in toplevel 
+    # answer of button press 
+    global click
+    answer = 'yes'
     ans_lbl = Label(answer_window, text =f"The {answer} button was clicked.")
     ans_lbl.grid(column = 0, row = 0)
 
@@ -57,6 +49,7 @@ def clickedYES():
     time_lbl = Label(answer_window, text = f'The button was pressed at {time}')
     time_lbl.grid(column = 0, row = 2)
 
+    # use ip-api to get ip address and location data
     try:
         #get ip adress info
         ip_info = requests.get("http://ip-api.com/json/?fields=query,status,message,continent,country,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,reverse,mob").json()
@@ -68,18 +61,18 @@ def clickedYES():
     # add ip adress label    
     ip_address_lbl = Label(answer_window, text = f"The IP address is {ip_address}.")
     ip_address_lbl.grid(column = 0, row = 3)
-    
 
-# add the YES button
-btn = Button(window, text="YES", command = clickedYES)
-btn.grid(column=0, row=9)
+    # add where on button was pressed
+    x, y = event.x, event.y
+    pos_lbl = Label(answer_window, text = f'The mouse was clicked at {x},{y}')
+    pos_lbl.grid(column = 0, row = 4)
 
-def clickedNO():
+def clickedNO(event):
 
+    #create new window for answer
     answer_window = Toplevel(window) 
   
-    # sets the title of the 
-    # Toplevel widget 
+    # sets the title of the window 
     answer_window.title("Answer Window") 
   
     # sets the geometry of toplevel 
@@ -103,8 +96,9 @@ def clickedNO():
     time_lbl = Label(answer_window, text = f'The button was pressed at {time}')
     time_lbl.grid(column = 0, row = 2)
 
+    # use ip-api to get ip address and location data
     try:
-        #get ip adress info
+        #get ip address info
         ip_info = requests.get("http://ip-api.com/json/?fields=query,status,message,continent,country,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,reverse,mob").json()
         ip_address = ip_info['query']
     except:
@@ -115,13 +109,21 @@ def clickedNO():
     ip_address_lbl = Label(answer_window, text = f"The IP address is {ip_address}.")
     ip_address_lbl.grid(column = 0, row = 3)
 
+    # where on the button was pressed
+    x, y = event.x, event.y
+    pos_lbl = Label(answer_window, text = f'The mouse was clicked at {x},{y}')
+    pos_lbl.grid(column = 0, row = 4)
     
-
-
+# add the YES button
+yes_btn = Button(window, text="YES", font=("Arial Bold", 40))
+yes_btn.place(relx = .25, rely = .66, height = 120, width = 200, anchor = 'center')
+yes_btn.bind("<Button-1>", clickedYES)
+yes_btn.bind("<Button-2>", clickedNO)
 
 # add the NO button
-btn = Button(window, text="NO", command = clickedNO)
-btn.grid(column=1, row=9)
+no_btn = Button(window, text="NO", font=("Arial Bold", 40))
+no_btn.place(relx = .75, rely=.66, height = 120, width = 200, anchor = 'center')
+no_btn.bind("<Button-1>", clickedNO)
 
 # keep window open until user input
 window.mainloop()
