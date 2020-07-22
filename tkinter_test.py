@@ -6,6 +6,12 @@ import requests
 
 import json
 
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 # create the window object
 window = Tk()
 
@@ -19,10 +25,12 @@ window.title("Please Select YES or NO")
 lbl = Label(window, text="Please Select YES or NO", font=("Arial Bold", 20))
 lbl.place(relx = .5, rely = .3, anchor = 'center')
 
+positions = {'x' : [100, 150, 75, 125, 25], 'y':[25, 50, 75, 100, 110]}
+click_locations_df = pd.DataFrame(positions, columns = ['x','y'])
 
 def clickedYES(event):
 
-    #creates ne window for the answer
+    #creates new window for the answer
     answer_window = Toplevel(window) 
   
     # sets the title of the window
@@ -63,9 +71,22 @@ def clickedYES(event):
     ip_address_lbl.grid(column = 0, row = 3)
 
     # add where on button was pressed
-    x, y = event.x, event.y
+    x, y = event.x, (120-event.y)
     pos_lbl = Label(answer_window, text = f'The mouse was clicked at {x},{y}')
     pos_lbl.grid(column = 0, row = 4)
+    last_clicked_location = {'x':x,'y':y}
+    new_click_locations_df = click_locations_df.append(last_clicked_location,ignore_index=True)
+    print(new_click_locations_df)
+
+    #plot the button press locations
+    figure = plt.Figure(figsize=(5,3), dpi=100)
+    ax = figure.add_subplot(111)
+    ax.scatter(new_click_locations_df['x'],new_click_locations_df['y'])
+    ax.scatter(x,y,color='red')
+    ax.set_xlim(0,200)
+    ax.set_ylim(0,120)
+    scatter = FigureCanvasTkAgg(figure, answer_window) 
+    scatter.get_tk_widget().grid(column = 0, row = 5)
 
 def clickedNO(event):
 
@@ -110,9 +131,22 @@ def clickedNO(event):
     ip_address_lbl.grid(column = 0, row = 3)
 
     # where on the button was pressed
-    x, y = event.x, event.y
+    x, y = event.x, (120 - event.y)
     pos_lbl = Label(answer_window, text = f'The mouse was clicked at {x},{y}')
     pos_lbl.grid(column = 0, row = 4)
+    last_clicked_location = {'x':x,'y':y}
+    new_click_locations_df = click_locations_df.append(last_clicked_location,ignore_index=True)
+    print(new_click_locations_df)
+
+    #plot the button press locations
+    figure = plt.Figure(figsize=(5,3), dpi=100)
+    ax = figure.add_subplot(111)
+    ax.scatter(new_click_locations_df['x'],new_click_locations_df['y'])
+    ax.scatter(x,y,color='red')
+    ax.set_xlim(0,200)
+    ax.set_ylim(0,120)
+    scatter = FigureCanvasTkAgg(figure, answer_window) 
+    scatter.get_tk_widget().grid(column = 0, row = 5)
     
 # add the YES button
 yes_btn = Button(window, text="YES", font=("Arial Bold", 40))
