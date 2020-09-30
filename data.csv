@@ -62,3 +62,4 @@ ip_address,continent,country,region,city,time_zone,isp,mobile,proxy,answer,date,
 45.19.199.230,North America,United States,Texas,Austin,America/Chicago,"AT&T Services, Inc.",False,False,yes,2020-08-02,11:44:11.481748,173,63
 45.19.199.230,North America,United States,Texas,Austin,America/Chicago,"AT&T Services, Inc.",False,False,yes,2020-08-05,15:26:21.467139,164,72
 45.19.199.230,North America,United States,Texas,Austin,America/Chicago,"AT&T Services, Inc.",False,False,no,2020-08-05,17:18:03.529563,76,15
+45.19.199.230,North America,United States,Texas,Austin,America/Chicago,"AT&T Services, Inc.",False,False,yes,2020-09-30,16:43:14.157665,188,110
