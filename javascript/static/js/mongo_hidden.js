@@ -2,14 +2,14 @@
 
 
 const MongoClient = require('mongodb').MongoClient;
-const config = require('./config');
+const config = require('./config.js');
 
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const uri = `mongodb+srv://admin:dsFkFtwWhIPt4VmX@selection.pwzpm.mongodb.net/test?retryWrites=true&w=majority`;
+    const uri = `mongodb+srv://<user>:<password>@selection.pwzpm.mongodb.net/test?retryWrites=true&w=majority`;
  
 
     const client = new MongoClient(uri, { useNewUrlParser: true });
